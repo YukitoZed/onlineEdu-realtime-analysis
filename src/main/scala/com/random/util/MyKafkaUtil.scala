@@ -3,10 +3,13 @@ package com.random.util
 import java.util.Properties
 
 import org.apache.kafka.clients.consumer.ConsumerRecord
+import org.apache.kafka.common.TopicPartition
 import org.apache.kafka.common.serialization.StringDeserializer
 import org.apache.spark.streaming.StreamingContext
 import org.apache.spark.streaming.dstream.InputDStream
 import org.apache.spark.streaming.kafka010.{ConsumerStrategies, KafkaUtils, LocationStrategies}
+
+import scala.collection.mutable
 
 object MyKafkaUtil {
 
@@ -34,9 +37,12 @@ object MyKafkaUtil {
   // ConsumerStrategies：选择如何在Driver和Executor上创建和配置Kafka Consumer
   // ConsumerStrategies.Subscribe：订阅一系列主题
 
-  def getKafkaStream(topic: String,ssc:StreamingContext): InputDStream[ConsumerRecord[String,String]]={
-    val dStream = KafkaUtils.createDirectStream[String,String](ssc, LocationStrategies.PreferConsistent,ConsumerStrategies.Subscribe[String,String](Array(topic),kafkaParam))
-    dStream
+  def getKafkaStream(topic: String, ssc:StreamingContext, offsetMap:mutable.HashMap[TopicPartition, Long]): InputDStream[ConsumerRecord[String,String]]={
+    if(offsetMap.isEmpty){
+      KafkaUtils.createDirectStream[String,String](ssc, LocationStrategies.PreferConsistent,ConsumerStrategies.Subscribe[String,String](Array(topic),kafkaParam))
+    }else{
+      KafkaUtils.createDirectStream[String,String](ssc, LocationStrategies.PreferConsistent,ConsumerStrategies.Subscribe[String,String](Array(topic),kafkaParam,offsetMap))
+    }
   }
 }
 

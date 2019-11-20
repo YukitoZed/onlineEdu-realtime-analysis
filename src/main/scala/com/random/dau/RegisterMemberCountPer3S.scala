@@ -2,7 +2,7 @@ package com.random.dau
 
 import java.sql.{Connection, ResultSet}
 
-import com.random.consumer.RegisterConsumer
+import com.random.consumer.ConsumerUtil
 import com.random.util.{DataSourceUtil, QueryCallback, SqlProxy}
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.apache.kafka.common.TopicPartition
@@ -84,7 +84,7 @@ object RegisterMemberCountPer3S {
 
 //    val inputDStream: InputDStream[ConsumerRecord[String, String]] = MyKafkaUtil.getKafkaStream("register_topic",ssc,offsetMap)
 
-    val inputDStream: InputDStream[ConsumerRecord[String, String]] = RegisterConsumer.getRegisterLog("register_topic",ssc,offsetMap)
+    val inputDStream: InputDStream[ConsumerRecord[String, String]] = ConsumerUtil.getRegisterLog("register_topic",ssc,offsetMap)
     // 每一行数据进行过滤查看是否是完整的日志信息
     val result: DStream[(String, Int)] = inputDStream.filter(item => {
       item.value().split("\t").length == 3

@@ -10,7 +10,7 @@ object QzLogProducer {
   def main(args: Array[String]): Unit = {
     val sparkConf = new SparkConf().setAppName("logProducer").setMaster("local[*]")
     val ssc = new SparkContext(sparkConf)
-    System.setProperty("hadoop.home.dir", "D:\\hadoop\\hadoop-common-2.2.0-bin-master")
+//    System.setProperty("hadoop.home.dir", "D:\\hadoop\\hadoop-common-2.2.0-bin-master")
     val resultLog = ssc.textFile(this.getClass.getResource("/qz.log").toURI.getPath, 10)
       .foreachPartition(partitoin => {
 //        val props = new Properties()

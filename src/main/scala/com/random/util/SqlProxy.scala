@@ -23,7 +23,7 @@ class SqlProxy {
     try {
       psmt = conn.prepareStatement(sql)
       if (params != null && params.length > 0) {
-        for (i <- 0 until params.length) {
+        for (i <- 0 until params.length ) {
           psmt.setObject(i + 1, params(i))
         }
       }
@@ -48,7 +48,7 @@ class SqlProxy {
     try {
       psmt = conn.prepareStatement(sql)
       if (params != null && params.length > 0) {
-        for (i <- 0 until params.length) {
+        for (i <- 0 until params.length ) {
           psmt.setObject(i + 1, params(i))
         }
       }

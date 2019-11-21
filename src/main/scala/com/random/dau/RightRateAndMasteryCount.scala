@@ -110,7 +110,6 @@ object RightRateAndMasteryCount {
 
     //开启背压机制
     conf.set("spark.streaming.backpressure.enabled", "true")
-    conf.set("spark.streaming.kafka.maxRatePerPartition", "100")
     conf.set("spark.streaming.stopGracefullyOnShutdown", "true")
 
     //由于Kafka数据积压，设置参数防止OOM
